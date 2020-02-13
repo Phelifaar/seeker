@@ -1,49 +1,57 @@
 <p align="center"><img src="https://i.imgur.com/jo1qA2K.png"></p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/Python-3-brightgreen.svg?style=plastic">
-<img src="https://img.shields.io/badge/Docker-✔-blue.svg?style=plastic">
+<img src="https://img.shields.io/badge/Docker-✔-black.svg?style=plastic">
+<img src="https://img.shields.io/badge/Python-3-blue.svg?style=plastic">
+<img src="https://img.shields.io/badge/Windows-✔-red.svg?style=plastic">
 </p>
 
+## Контакты разработчиков
+
+### thewhiteh4t
+
 <p align="center">
-  <a href="https://twitter.com/thewhiteh4t"><b>Twitter thewhiteh4t</b></a>
+  <a href="https://twitter.com/thewhiteh4t"><b>Twitter</b></a>
   <span> - </span>
-  <a href="https://t.me/thewhiteh4t"><b>Telegram thewhiteh4t</b></a>
+  <a href="https://t.me/thewhiteh4t"><b>Telegram</b></a>
   <span> - </span>
-  <a href="https://thewhiteh4t.github.io"><b>Блог thewhiteh4t</b></a>
+  <a href="https://thewhiteh4t.github.io"><b>Блог</b></a>
+</p>
+
+#### Phelifar
+
+<p align="center">
+  <a href="https://t.me/phelifar"><b>Telegram</b></a>
   <span> - </span>
-  <a href="https://t.me/phelifar"><b>Telegram Phelifar</b></a>
-  <span> - </span>
-  <a href="https://vk.com/phelifar"><b>ВК Phelifar</b></a>
+  <a href="https://vk.com/phelifar"><b>VK</b></a>
 </p>
 
 <p align="center">
   <br>
-  <b>Available in</b>
+  <b>Доступно в</b>
   <br>
   <img src="https://i.imgur.com/1wJVDV5.png">
 </p>
 
-Concept behind Seeker is simple, just like we host phishing pages to get credentials why not host a fake page that requests your location like many popular location based websites. Read more on <a href="https://thewhiteh4t.github.io"> thewhiteh4t's Blog </a>.Seeker Hosts a fake website on **In Built PHP Server** and uses **Serveo** to generate a link which we will forward to the target, website asks for Location Permission and if the target allows it, we can get :
+Концепция Seeker проста, подобно тому, как мы размещаем фишинговые страницы для получения учетных данных, почему бы не разместить поддельную страницу, которая запрашивает ваше местоположение, как многие популярные веб-сайты, основанные на местоположении. Читать больше в <a href="https://thewhiteh4t.github.io">  блоге thewhiteh4t </a>. Seeker Hosts является фальшивым веб-сайтом **на встроенном PHP-сервере** и использует **ngrok** для создания ссылки, которую мы будем перенаправлять к цели, веб-сайт запрашивает разрешение на местоположение и, если цель позволяет, мы можем получить:
 
-* Longitude
-* Latitude
-* Accuracy
-* Altitude - Not always available
-* Direction - Only available if user is moving
-* Speed - Only available if user is moving
+* Долгота
+* Широта
+* Точность
+* Высота - Не всегда доступно
+* Напрвление - Доступно, если пользователь движется
+* Скорость - Доступно, если пользователь движется
 
-Along with Location Information we also get **Device Information** without any permissions :
+Наряду с информацией о местоположении мы также получаем **информацию об устройстве** без каких-либо разрешений:
 
-* Operating System
-* Platform
-* Number of CPU Cores
-* Amount of RAM - Approximate Results
-* Screen Resolution
-* GPU information
-* Browser Name and Version
-* Public IP Address
-* IP Address Reconnaissance
+* Операционная система
+* Платформа
+* Количество ядер в CPU
+* Количество RAM - Приблизительные Результаты
+* Разрешение экрана
+* Информация о GPU
+* Данные браузера
+* Публичный IP-адрес
 
 **This tool is a Proof of Concept and is for Educational Purposes Only, Seeker shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.**
 
@@ -55,16 +63,13 @@ Along with Location Information we also get **Device Information** without any p
 
 * Generally if a user accepts location permsission, Accuracy of the information recieved is **accurate to approximately 30 meters**, Accuracy Depends on the Device.
 
-**Note** : On iPhone due to some reason location accuracy is approximately 65 meters.
+**P.S.** : На iPhone точность определения местоположения составляет примерно 65 метров.
 
-## Templates
-
-You can choose a template which will be used by seeker from these : 
-
+## Шаблоны
 * NearYou
 * Google Drive (Suggested by @Akaal_no_one)
 
-## Tested On :
+## Работает на :
 
 * Kali Linux 2019.2
 * BlackArch Linux
@@ -73,7 +78,7 @@ You can choose a template which will be used by seeker from these :
 * Termux
 * Parrot OS
 
-## Installation
+## Установка
 
 ### Kali Linux / Ubuntu / Parrot OS
 
@@ -105,7 +110,7 @@ chmod 777 termux_install.sh
 ./termux_install.sh
 ```
 
-## Usage
+## Использование
 
 ```bash
 python3 seeker.py -h
@@ -118,10 +123,10 @@ optional arguments:
 
 # Example
 
-# In First Terminal Start seeker in Manual mode like this
+# В 1-ом терминале запускаем Seeker
 python3 seeker.py 
 
-# In Second Terminal Start Ngrok or any other tunnel service on port 8080
+# Во 2-ом терминале запускаем ngrok на порт 8080
 ./ngrok http 8080
 
 #-----------------------------------#
@@ -129,17 +134,17 @@ python3 seeker.py
 # Docker Usage
 ##############
 
-# Step 1
+# Шаг 1
 docker network create ngroknet
 
-# Step 2
+# Шаг 2
 docker run --rm -t --net ngroknet --name seeker thewhiteh4t/seeker python3 seeker.py
 
-# Step 3
+# Шаг 3
 docker run --rm -t --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
 ```
 
-## Demo
+## Демонстрация оригинала
 
 <p align="center">
 	<a href="https://www.youtube.com/watch?v=FEyAPjkJFrk"><img src="https://i.imgur.com/48yrleF.png"></a>
