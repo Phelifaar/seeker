@@ -3,7 +3,7 @@
 <p align="center">
 <img src="https://img.shields.io/badge/Docker-✔-black.svg?style=plastic">
 <img src="https://img.shields.io/badge/Python-3-blue.svg?style=plastic">
-<img src="https://img.shields.io/badge/Windows-✔-red.svg?style=plastic">	
+<img src="https://img.shields.io/badge/Translated_on-Russian-darkgreen.svg?style=plastic">	
 </p>
 
 ## Контакты разработчиков
