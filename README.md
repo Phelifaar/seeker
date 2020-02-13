@@ -6,10 +6,6 @@
 <img src="https://img.shields.io/badge/Windows-✔-red.svg?style=plastic">	
 </p>
 
-<p align="center">
-<img src="https://img.shields.io/badge/Translated_to-Russian-darkgreen.svg?style=plastic">	
-</p>
-
 ## Контакты разработчиков
 
 ### thewhiteh4t
