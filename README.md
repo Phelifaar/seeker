@@ -3,7 +3,11 @@
 <p align="center">
 <img src="https://img.shields.io/badge/Docker-✔-black.svg?style=plastic">
 <img src="https://img.shields.io/badge/Python-3-blue.svg?style=plastic">
-<img src="https://img.shields.io/badge/Windows-✔-red.svg?style=plastic">
+<img src="https://img.shields.io/badge/Windows-✔-red.svg?style=plastic">	
+</p>
+
+<p align="center">
+<img src="https://img.shields.io/badge/Translated_to-Russian-darkgreen.svg?style=plastic">	
 </p>
 
 ## Контакты разработчиков
@@ -53,21 +57,21 @@
 * Данные браузера
 * Публичный IP-адрес
 
-**This tool is a Proof of Concept and is for Educational Purposes Only, Seeker shows what data a malicious website can gather about you and your devices and why you should not click on random links and allow critical permissions such as Location etc.**
+**Этот инструмент является проверкой концепции и предназначен только для образовательных целей. Seeker показывает, какие данные может собирать вредоносный веб-сайт о вас и ваших устройствах, и почему вы не должны нажимать на случайные ссылки и разрешать критические разрешения, такие как местоположение и т.д.**
 
-## How is this Different from IP GeoLocation
+## Чем это отличается от IP GeoLocation
 
-* Other tools and services offer IP Geolocation which is NOT accurate at all and does not give location of the target instead it is the approximate location of the ISP.
+* Другие инструменты и сервисы предлагают IP-геолокацию, которая НЕ является точной и не дает определения местоположения цели, а является приблизительным местоположением провайдера.
 
-* Seeker uses HTML API and gets Location Permission and then grabs Longitude and Latitude using GPS Hardware which is present in the device, so Seeker works best with Smartphones, if the GPS Hardware is not present, such as on a Laptop, Seeker fallbacks to IP Geolocation or it will look for Cached Coordinates.  
+* Seeker использует HTML API и получает разрешение на местоположение, а затем захватывает долготу и широту с помощью GPS оборудования, которое присутствует в устройстве, поэтому Seeker лучше всего работает со смартфонами, если отсутствует GPS-оборудование, например, на ноутбуке, Seeker откатится к IP-геолокации или будет искать кэшированные координаты.
 
-* Generally if a user accepts location permsission, Accuracy of the information recieved is **accurate to approximately 30 meters**, Accuracy Depends on the Device.
+* Как правило, если пользователь принимает разрешение на определение местоположения, точность полученной информации составляет **с точностью приблизительно до 30 метров**, точность зависит от устройства.
 
 **P.S.** : На iPhone точность определения местоположения составляет примерно 65 метров.
 
 ## Шаблоны
 * NearYou
-* Google Drive (Suggested by @Akaal_no_one)
+* Google Drive (Предложено @Akaal_no_one)
 
 ## Работает на :
 
@@ -121,7 +125,7 @@ optional arguments:
   -h, --help                              show this help message and exit
   -k KML, --kml KML                       Provide KML Filename ( Optional )
 
-# Example
+# Пример
 
 # В 1-ом терминале запускаем Seeker
 python3 seeker.py 
@@ -144,7 +148,7 @@ docker run --rm -t --net ngroknet --name seeker thewhiteh4t/seeker python3 seeke
 docker run --rm -t --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
 ```
 
-## Демонстрация оригинала
+## Демонстрация
 
 <p align="center">
 	<a href="https://www.youtube.com/watch?v=FEyAPjkJFrk"><img src="https://i.imgur.com/48yrleF.png"></a>
