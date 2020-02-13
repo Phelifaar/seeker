@@ -119,7 +119,10 @@ usage: seeker.py [-h] [-s SUBDOMAIN]
 
 optional arguments:
   -h, --help                              show this help message and exit
-  -k KML, --kml KML                       Provide KML Filename ( Optional )
+  -k, --kml                               Имя файла KML (Необязательно)
+  -vkl, --vklogin                         Ваш логин ВК (Необязательно)
+  -vkp, --vkpassword                      Ваш пароль ВК (Необязательно)
+  -ngrok, --ngroktoken                    Ваш токен от аккаунта ngrok
 
 # Пример
 
