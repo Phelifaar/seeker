@@ -87,7 +87,7 @@
 ### Kali Linux / Ubuntu / Parrot OS
 
 ```bash
-git clone https://github.com/thewhiteh4t/seeker.git
+git clone https://github.com/Phelifaar/seeker.git
 cd seeker/
 chmod 777 install.sh
 ./install.sh
@@ -102,13 +102,13 @@ pacman -S seeker
 ### Docker
 
 ```bash
-docker pull thewhiteh4t/seeker
+docker pull Phelifaar/seeker
 ```
 
 ### Termux
 
 ```bash
-git clone https://github.com/thewhiteh4t/seeker.git
+git clone https://github.com/Phelifaar/seeker.git
 cd seeker/
 chmod 777 termux_install.sh
 ./termux_install.sh
