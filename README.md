@@ -115,36 +115,29 @@ chmod 777 termux_install.sh
 ```bash
 python3 seeker.py -h
 
-usage: seeker.py [-h] [-s SUBDOMAIN]
+usage: seeker.py [-h] [-k KML] [-vkl VKLOGIN] [-vkp VKPASSWORD] [-ngrok NGROKTOKEN]
 
 optional arguments:
-  -h, --help                              show this help message and exit
-  -k, --kml                               Имя файла KML (Необязательно)
-  -vkl, --vklogin                         Ваш логин ВК (Необязательно)
-  -vkp, --vkpassword                      Ваш пароль ВК (Необязательно)
-  -ngrok, --ngroktoken                    Ваш токен от аккаунта ngrok
+  -h, --help                              	show this help message and exit
+  -k KML, --kml KML                       	Имя файла KML (Необязательно)
+  -vkl VKLOGIN, --vklogin VKLOGIN         	Ваш логин ВК (Необязательно)
+  -vkp VKPASSWORD, --vkpassword VKPASSWORD      Ваш пароль ВК (Необязательно)
+  -ngrok NGROKTOKEN, --ngroktoken NGROKTOKEN  	Ваш токен от аккаунта ngrok
 
 # Пример
 
-# В 1-ом терминале запускаем Seeker
-python3 seeker.py 
-
-# Во 2-ом терминале запускаем ngrok на порт 8080
-./ngrok http 8080
+python3 seeker.py -ngrok [Токен ngrok]
 
 #-----------------------------------#
 
-# Docker Usage
+# Использование в Docker
 ##############
 
 # Шаг 1
 docker network create ngroknet
 
 # Шаг 2
-docker run --rm -t --net ngroknet --name seeker thewhiteh4t/seeker python3 seeker.py
-
-# Шаг 3
-docker run --rm -t --net ngroknet --name ngrok wernight/ngrok ngrok http seeker:8080
+docker run --rm -t --net ngroknet --name seeker Phelifaar/seeker python3 seeker.py -ngrok [Токен ngrok]
 ```
 
 ## Демонстрация
