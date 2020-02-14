@@ -143,5 +143,5 @@ docker run --rm -t --net ngroknet --name seeker Phelifaar/seeker python3 seeker.
 ## Демонстрация
 
 <p align="center">
-	<a href="https://www.youtube.com/watch?v=FEyAPjkJFrk"><img src="https://шьп.youtube.com/va/FEyAPjkJFrk/0.jpg"></a>
+	<a href="https://www.youtube.com/watch?v=FEyAPjkJFrk"><img src="https://img.youtube.com/vi/FEyAPjkJFrk/3.jpg"></a>
 </p>
