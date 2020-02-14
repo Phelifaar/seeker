@@ -139,9 +139,3 @@ docker network create ngroknet
 # Шаг 2
 docker run --rm -t --net ngroknet --name seeker Phelifaar/seeker python3 seeker.py -ngrok [Токен ngrok]
 ```
-
-## Демонстрация
-
-<p align="center">
-	<a href="https://www.youtube.com/watch?v=FEyAPjkJFrk"><img src="https://img.youtube.com/vi/FEyAPjkJFrk/3.jpg"></a>
-</p>
