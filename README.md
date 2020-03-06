@@ -1,7 +1,6 @@
 <p align="center"><img src="https://i.imgur.com/jo1qA2K.png"></p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/Docker-✔-black.svg?style=plastic">
 <img src="https://img.shields.io/badge/Python-3-blue.svg?style=plastic">
 <img src="https://img.shields.io/badge/Translated_on-Russian-darkgreen.svg?style=plastic">	
 </p>
@@ -66,8 +65,10 @@
 **P.S.** : На iPhone точность определения местоположения составляет примерно 65 метров.
 
 ## Шаблоны
-* NearYou
-* Google Drive (Предложено @Akaal_no_one)
+<p align="centre"> 
+  <h3> NearYou (От thewhiteh4t) </h3>
+  <img src="https://i.imgur.com/v5vaYLS.png"> 
+</p>
 
 ## Работает на :
 
