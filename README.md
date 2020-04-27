@@ -128,15 +128,4 @@ optional arguments:
 # Пример
 
 python3 seeker.py -ngrok [Токен ngrok]
-
-#-----------------------------------#
-
-# Использование в Docker
-########################
-
-# Шаг 1
-docker network create ngroknet
-
-# Шаг 2
-docker run --rm -t --net ngroknet --name seeker Phelifaar/seeker python3 seeker.py -ngrok [Токен ngrok]
 ```
