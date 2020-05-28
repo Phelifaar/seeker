@@ -20,7 +20,7 @@
 #### Phelifar
 
 <p align="center">
-  <a href="https://t.me/phelifar"><b>Telegram</b></a>
+  <a href="https://t.me/phelifaar"><b>Telegram</b></a>
 </p>
 
 <p align="center">
