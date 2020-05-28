@@ -2,7 +2,7 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/Python-3-blue.svg?style=plastic">
-<img src="https://img.shields.io/badge/Translated_on-Russian-darkgreen.svg?style=plastic">	
+<img src="https://img.shields.io/badge/Translated_on-Russian-darkgreen.svg?style=plastic">
 </p>
 
 ## Контакты разработчиков
@@ -21,8 +21,6 @@
 
 <p align="center">
   <a href="https://t.me/phelifar"><b>Telegram</b></a>
-  <span> - </span>
-  <a href="https://vk.com/phelifar"><b>VK</b></a>
 </p>
 
 <p align="center">
@@ -65,9 +63,9 @@
 **P.S.** : На iPhone точность определения местоположения составляет примерно 65 метров.
 
 ## Шаблоны
-<p align="centre"> 
+<p align="centre">
   <h3> NearYou (От thewhiteh4t) </h3>
-  <img src="https://i.imgur.com/v5vaYLS.png"> 
+  <img src="https://i.imgur.com/v5vaYLS.png">
 </p>
 
 ## Работает на :
@@ -78,6 +76,7 @@
 * Kali Nethunter
 * Termux
 * Parrot OS
+* Windows 10
 
 ## Установка
 
@@ -102,6 +101,13 @@ pacman -S seeker
 docker pull Phelifaar/seeker
 ```
 
+### Windows 10
+
+1) Скачать и установить <a href="https://www.python.org"><b>Python 3</b></a>
+2) Скачать и установить <b>от имени администратора</b> <a href="https://mega.nz/file/okZw1SpB#c5mIn6Pfgw5A1iqnnrHFvqwE6jg_5dPlJIZEHng2i8w"><b>PHP</b></a>
+3) Установить <a href="https://winitpro.ru/index.php/2019/10/17/windows-openssh-server/"><b>SSH</b></a> через <a href="https://docs.microsoft.com/ru-ru/powershell/scripting/windows-powershell/starting-windows-powershell?view=powershell-7#at-the-command-prompt"><b>PowerShell</b></a>
+4) Запустить win_install.bat
+
 ### Termux
 
 ```bash
@@ -114,18 +120,4 @@ chmod 777 termux_install.sh
 ## Использование
 
 ```bash
-python3 seeker.py -h
-
-usage: seeker.py [-h] [-k KML] [-vkl VKLOGIN] [-vkp VKPASSWORD] [-ngrok NGROKTOKEN]
-
-optional arguments:
-  -h, --help                              	show this help message and exit
-  -k KML, --kml KML                       	Имя файла KML (Необязательно)
-  -vkl VKLOGIN, --vklogin VKLOGIN         	Ваш логин ВК (Необязательно)
-  -vkp VKPASSWORD, --vkpassword VKPASSWORD      Ваш пароль ВК (Необязательно)
-  -ngrok NGROKTOKEN, --ngroktoken NGROKTOKEN  	Ваш токен от аккаунта ngrok
-
-# Пример
-
-python3 seeker.py -ngrok [Токен ngrok]
-```
+python3 seeker.py

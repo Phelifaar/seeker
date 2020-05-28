@@ -10,6 +10,8 @@ python3-pip \
 php \
 ssh >> install.log
 RUN pip3 install requests >> install.log
+RUN pip3 install vk_api &>> install.log
+RUN pip3 install pyngrok &>> install.log
 ADD . /seeker
 RUN chmod 777 template/nearyou/php/info.txt
 RUN chmod 777 template/nearyou/php/result.txt
